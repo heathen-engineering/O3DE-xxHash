@@ -147,6 +147,7 @@ BUILD_DEPENDENCIES
 ## Usage — Script Canvas
 
 The `xxHashRequestBus` is fully reflected to the BehaviorContext. In Script Canvas, search the node palette for **xxHash** to find:
+<img width="1354" height="229" alt="image" src="https://github.com/user-attachments/assets/890dd7ea-c580-4f87-8c1c-6445deaa3706" />
 
 | Node | Inputs | Output |
 |------|--------|--------|
