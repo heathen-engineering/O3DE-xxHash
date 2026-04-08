@@ -22,10 +22,10 @@ namespace xxHash
         AZ_TYPE_INFO(xxHashFunctions, xxHashFunctionsTypeId);
         static void Reflect(AZ::ReflectContext* context);
 
-        //! Compute a 32-bit xxHash (XXH32) of the given string.
+        //! Compute a 32-bit hash (XXH32) of the given string.
         static AZ::u32  Hash32(const AZStd::string& input, AZ::u32 seed);
 
-        //! Compute a 64-bit xxHash (XXH64) of the given string.
+        //! Compute a 64-bit hash (XXH3_64bits) of the given string.
         static AZ::u64  Hash64(const AZStd::string& input, AZ::u64 seed);
 
         //! Compute a 128-bit xxHash (XXH3_128bits) of the given string.

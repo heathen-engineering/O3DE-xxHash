@@ -42,11 +42,13 @@ xxHash provides three hash variants exposed through the `xxHashRequestBus` EBus:
 
 | Function | Algorithm | Output | Notes |
 |----------|-----------|--------|-------|
-| `Hash32` | XXH32 | `AZ::u32` | Classic 32-bit; works on all platforms including 32-bit |
-| `Hash64` | XXH64 | `AZ::u64` | Classic 64-bit; best on 64-bit systems |
-| `Hash128` | XXH3\_128bits | `AZ::Uuid` | Modern 128-bit; fastest on current hardware |
+| `Hash32` | XXH32 | `AZ::u32` | Classic 32-bit algorithm. XXH3 has no 32-bit variant; XXH32 is used here. |
+| `Hash64` | XXH3\_64bits | `AZ::u64` | Modern 64-bit (xxHash v3); preferred for all new 64-bit use cases. |
+| `Hash128` | XXH3\_128bits | `AZ::Uuid` | Modern 128-bit (xxHash v3); fastest on current hardware. |
 
-All three accept an `AZStd::string` as input. `Hash32` and `Hash64` also accept an optional seed value. `Hash128` returns an `AZ::Uuid` — a first-class O3DE type that works in serialization, Script Canvas, Lua, and AZStd collections without any extra setup.
+`Hash32` and `Hash64` accept a seed value. `Hash128` has no seed parameter. `Hash128` returns an `AZ::Uuid` — a first-class O3DE type that works in serialization, Script Canvas, Lua, and AZStd collections without any extra setup.
+
+> **Note:** `Hash32` uses the legacy XXH32 algorithm because the xxHash v3 family has no native 32-bit output. Prefer `Hash64` or `Hash128` for any new work where the output width is not constrained.
 
 For high-throughput C++ code (e.g. raw byte buffers, streaming), you can also call the xxHash C API directly via `#include <xxHash/xxhash.h>`.
 
@@ -175,9 +177,9 @@ Debug.Log(tostring(hash128))
 
 | Event | Signature | Description |
 |-------|-----------|-------------|
-| `Hash32` | `(string, u32 seed) → u32` | Classic 32-bit xxHash (XXH32) |
-| `Hash64` | `(string, u64 seed) → u64` | Classic 64-bit xxHash (XXH64) |
-| `Hash128` | `(string) → AZ::Uuid` | Modern 128-bit xxHash (XXH3\_128bits) |
+| `Hash32` | `(string, u32 seed) → u32` | 32-bit hash (XXH32 — no XXH3 32-bit equivalent exists) |
+| `Hash64` | `(string, u64 seed) → u64` | 64-bit hash (XXH3\_64bits) |
+| `Hash128` | `(string) → AZ::Uuid` | 128-bit hash (XXH3\_128bits) |
 
 ### Public headers
 

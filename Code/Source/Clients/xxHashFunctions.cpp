@@ -32,7 +32,7 @@ namespace xxHash
 
     AZ::u64 xxHashFunctions::Hash64(const AZStd::string& input, AZ::u64 seed)
     {
-        return static_cast<AZ::u64>(XXH64(input.data(), input.size(), seed));
+        return static_cast<AZ::u64>(XXH3_64bits_withSeed(input.data(), input.size(), static_cast<XXH64_hash_t>(seed)));
     }
 
     AZ::Uuid xxHashFunctions::Hash128(const AZStd::string& input)
