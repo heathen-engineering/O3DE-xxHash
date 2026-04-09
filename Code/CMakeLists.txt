@@ -17,6 +17,23 @@ if(NOT PAL_TRAIT_XXHASH_SUPPORTED)
     return()
 endif()
 
+# The ${gem_name}.Library target compiles xxhash.c into a linkable static library.
+# It is not marked O3DE_PRIVATE_TARGET so that other gems can link it transitively
+# via Gem::xxHash.API. This is necessary because the MODULE gem target cannot be
+# linked against directly by other gem modules.
+ly_add_target(
+    NAME ${gem_name}.Library STATIC
+    NAMESPACE Gem
+    FILES_CMAKE
+        xxhash_library_files.cmake
+    INCLUDE_DIRECTORIES
+        PUBLIC
+            Include
+    BUILD_DEPENDENCIES
+        PUBLIC
+            AZ::AzCore
+)
+
 # The ${gem_name}.API target declares the common interface that users of this gem should depend on in their targets
 ly_add_target(
     NAME ${gem_name}.API INTERFACE
@@ -30,6 +47,7 @@ ly_add_target(
     BUILD_DEPENDENCIES
         INTERFACE
            AZ::AzCore
+           Gem::${gem_name}.Library
 )
 
 # The ${gem_name}.Private.Object target is an internal target
@@ -50,6 +68,7 @@ ly_add_target(
         PUBLIC
             AZ::AzCore
             AZ::AzFramework
+            Gem::${gem_name}.Library
 )
 
 # Here add ${gem_name} target, it depends on the Private Object library and Public API interface
